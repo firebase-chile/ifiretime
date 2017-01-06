@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iFireTime|Login </title>	
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/login.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="assets/js/jquery-1.12.3.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+<script src="assets/js/script.js"></script>
+<body>
+	<div class="row centered">
+		<div class="col-lg-4 col-lg-offset-4">
+			<form class="form-signin">
+				<h1 class="form-signin-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></h1>
+				<br>
+				<label class="sr-only" for="inputEmail">Correo</label>
+				<input id="inputEmail" class="form-control" type="email" autofocus="" required="" placeholder="Correo" value="falconsoft.3d@gmail.com">
+				<br>
+				<label class="sr-only" for="inputPassword1">Contraseña</label>
+				<input id="inputPassword" class="form-control" type="password" required="" placeholder="Contraseña" value="falconsoft.3d@gmail.com">
+				<div class="checkbox">
+					<button class="btn btn-lg btn-primary btn-block" type="submit" id="doRegister"  data-loading-text="Loading..." autocomplete="off">Iniciar</button>
+					<br>
+					<p>IfireTime</p>
+					<a href="http://www.marlonfalcon.cl">www.marlonfalcon.cl</a>
+					<div id="messageError"></div>
+				</form>
+			</div>
+		</div>
+	</body>
+	</html>

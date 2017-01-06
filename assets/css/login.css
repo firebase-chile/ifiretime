@@ -1,0 +1,14 @@
+body{
+	background-color: #eeeeee;
+}
+
+.form-signin{
+	width: 70%;
+	margin: 0 auto;
+	padding-top: 100px;
+	text-align: center;
+}
+
+body h1 span{
+	color:#286090
+}

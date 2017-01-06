@@ -1,0 +1,23 @@
+body{
+	background-color: #eeeeee;
+}
+
+.separador{
+	height: 30px;
+}
+
+.button-short{
+	max-height: 20px;
+}
+
+
+.myfooter{
+	background-color: #464749;
+	margin-top: 20px;
+	text-align: center;
+	color: #fff;
+}
+
+.myfooter p{
+	margin: 20px;
+}

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iFireTime</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-switch.min.css">
+  
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="assets/js/jquery-1.12.3.min.js"></script>
+  <script>
+    function load() {
+      var ref = new Firebase("https://ifiretime.firebaseio.com/");
+      if (!ref.getAuth()){
+       window.location="login.html";
+     }  
+   }
+   window.onload = load;
+ </script>
+ <script src="assets/js/bootstrap.min.js"></script>
+ <script src="assets/js/script.js"></script>
+ <script src="assets/js/angular.min.js"></script>
+ <script src="assets/js/firebase.js"></script>
+ <script src="assets/js/angularfire.min.js"></script>
+ <script src="assets/js/bootstrap-switch.min.js"></script>
+ <script>
+
+   var ref = new Firebase("https://ifiretime.firebaseio.com/admin/preguntas");
+   var juego1 = {
+    pregunta: "Buscando el Cantante 22",
+    R1: "Respuesta 1",
+    R2: "Respuesta 2",
+    R3: "Respuesta 3",
+    ID: "123"
+  }
+  ref.push(juego1);
+</script>
+
+</head>
+<body>
+</br>
+<div class="container">
+  <!-- Static navbar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">IfireTime</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active" id="apanel"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Inicio</a></li>
+          <li id="admin"><a href="#"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Administración</a></li>
+          <li id="aprogramas"><a href="#"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Programas</a></li>
+          <li id="acapitulos"><a href="#"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Capítulos</a></li>
+          <li id="apreguntas"><a href="#"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span> Preguntas</a></li>
+          <li><a href="#"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a id="close" href="../navbar-fixed-top/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Cerrar</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </nav>
+
+  <!-- ----------------------------------          Block 1  Admin       ----------------------------------------  -->
+
+  <div class="block-adm">
+    <div clas="row">
+      <div class="col-lg-6">
+        <div class="jumbotron">
+          <h1>IfireTime</h1>
+          <p id="index-text01">Bienvenidos a el tiempo real para la televisión,  programa desarrollado por Marlon Falcon, permite crear contenidos dinámicos para la televisión.</p>
+          <ul class="list-group">
+            <li class="list-group-item"><span class="badge numProgramas">14</span>Cantidad de Programas</li>
+            <li class="list-group-item"><span class="badge">14</span>Cantidad de Emisiones</li>
+            <li class="list-group-item"><span class="badge">14</span>Cantidad de Preguntas</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <img src="assets/img/img.jpg" alt="" class="img-responsive">
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- ----------------------------------          Block 2 Programas         ----------------------------------------  -->
+
+
+  <div class="block-programas">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        P1. Crear Programas
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-lg-6">        
+            <div class="form-group">
+              <label for="" class="col-sm-4 control-label">Nombre</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputName" placeholder="">
+              </div>
+            </div>
+            <div class="separador"></div>
+            <div class="form-group">
+              <label for="" class="col-sm-4 control-label">Autor</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputAutor" placeholder="">
+              </div>
+            </div>
+            <a class="btn btn-success" id="crear-programa"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Crear Programa</a>
+          </div>
+          <div class="col-lg-6">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success msg-ok" id="success-alert" style="display: none;">
+      <button type="button" class="close" data-dismiss="alert">x</button>
+      <strong>Perfecto! </strong>
+      Se ha adicionado un programa a la lista.
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        P2. Programas
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-lg-12"> 
+            <div ng-app="programasApp">
+              <table class="table" ng-controller="SampleCtrl">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Autor</th>
+
+                    <th>Eliminar</th>
+                    <th>Editar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="programa in programas">
+                    <td>{{ programa.nombre }}</td>
+                    <td>{{ programa.autor }}</td>
+
+                    <td style="width: 100px;"><a  class="eliminarprograma btn btn-danger" ng-click="programas.$remove(programa)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a></td>
+                    <td style="width: 100px;"><a class="editarprograma btn btn-warning" ng-click="do_some_action(programa.$id,programa.nombre,programa.autor)" ><span class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="modal" data-target="#myModal-Programas"></span> Editar</a></td>
+                  </tr>
+                  <tr>
+                    <tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" id="myModal-Programas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Programa</h4>
+              </div>
+              <input type="text" class="form-control" id="inputkey" placeholder="" style="display: none;" >   
+              <div class="modal-body">    
+               <label for="" class="col-sm-4 control-label">2.1 Nombre</label></br>         
+               <input type="text" class="form-control" id="inputName2" placeholder="" value="">         
+               <hr>       
+               <label for="" class="col-sm-4 control-label">2.2 Autor</label></br>        
+               <input type="text" class="form-control" id="inputAutor2" placeholder="">   
+             </div>
+             <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button id ="SaveCambiosProgramas" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        $('#SaveCambiosProgramas').on('click', function (e) {        
+          e.preventDefault();
+          RefEditarPrograma = new Firebase('https://ifiretime.firebaseio.com/admin/programas/'+ $('#inputkey').val()+'/');
+          RefEditarPrograma.update({
+            autor: $('#inputAutor2').val(),
+            nombre: $('#inputName2').val(),
+          })
+        });  
+      </script>
+
+
+      <input type="checkbox" name="my-checkbox" checked>
+      <script>
+        $("[name='my-checkbox']").bootstrapSwitch();
+      </script>
+
+
+      <script>
+// 1.0 Llenamos los programas usando Angular JS
+var app = angular.module("programasApp", ["firebase"]);
+app.controller("SampleCtrl", function($scope, $firebaseArray) {
+  var ref123 = new Firebase("https://ifiretime.firebaseio.com/admin/programas");
+  $scope.programas = $firebaseArray(ref123);
+
+// 1.1 Editamos    
+$scope.do_some_action = function(key,nombre,autor) {
+  $('#myModal-Programas').modal('show');
+  $('#inputName2').val(nombre);
+  $('#inputAutor2').val(autor);
+  $('#inputkey').val(key);
+};
+});
+
+// 1.2 Crear programas 
+$('#crear-programa').on('click', function (e) {        
+  e.preventDefault();
+  if( $('#inputName').val() != '' && $('#inputAutor').val() != '')
+  {
+    var ref = new Firebase("https://ifiretime.firebaseio.com/admin/programas");
+    var juego1 = {
+      nombre: $('#inputName').val(),
+      autor: $('#inputAutor').val(),
+      estado: "false"
+    }
+    ref.push(juego1);
+    $( ".msg-ok" ).css("display", "block");
+    $(".msg-ok").fadeTo(2000, 500).slideUp(500, function(){
+      $( ".msg-ok" ).css("display", "hide");
+    }); 
+  }
+
+  else{
+   alert("Entre los valores");
+   $( "#inputName" ).focus();
+ }
+});
+</script>
+</div>
+
+
+
+<!-- ----------------------------------          Block 3 Capítulos       ----------------------------------------  -->
+
+
+<div class="block-capitulos">      
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        C1. Crear Capítulos
+      </div>
+      <div class="panel-footer">
+
+        <div class="row">
+          <div class="col-lg-6">            
+
+            <div class="form-group">
+              <label for="" class="col-sm-4 control-label">Nombre</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputNameCapitulo" placeholder="">
+              </div>
+            </div>
+
+            <div class="separador"></div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-4 control-label">Autor</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputAutorCapitulo" placeholder="">
+              </div>
+            </div>
+
+            <div class="separador"></div>
+
+            <div class="form-group">
+              <label for="" class="col-sm-4 control-label">Programa</label>
+              <div class="col-sm-8">
+                <select class="form-control" id="inputProgramaCapitulo" >
+                <script>
+                $('#inputProgramaCapitulo').html('');
+                   var refprogramas1 = new Firebase("https://ifiretime.firebaseio.com/admin/programas");
+                   refprogramas1.orderByChild("nombre").on("child_added",function(snapshot){
+                     $("#inputProgramaCapitulo").append('<option class="optcap" id="'+snapshot.key()+'">'+snapshot.val().nombre+'</option>');
+                   });
+                </script>
+                </select>
+              </div>
+            </div>
+            <a class="btn btn-success" id="crear-capitulo"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Crear Capítulo</a>
+
+          </div>
+          <div class="col-lg-6">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success msg-ok2" id="success-alert" style="display: none;">
+      <button type="button" class="close" data-dismiss="alert">x</button>
+      <strong>Perfecto! </strong>
+      Se ha adicionado un capitulo a la lista.
+    </div>
+  </div>
+
+  <div class="block-capitulos">      
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        C1. Listado de Capitulos
+      </div>
+      <div class="panel-footer">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam obcaecati aliquam tempore earum expedita aliquid, iure autem possimus ipsam sit, fugit quasi magnam vitae praesentium, doloribus nulla ab, odit aspernatur.</p>  
+
+
+          <div class="row">
+          <div class="col-lg-12"> 
+            <div ng-app="programasApp2">
+              <table class="table" ng-controller="SampleCtrl2">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Autor</th>
+
+                    <th>Eliminar</th>
+                    <th>Editar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="capitulo in capitulos">
+                    <td>{{ capitulo.nombre }}</td>
+                    <td>{{ capitulo.autor }}</td>
+
+                    <td style="width: 100px;"><a  class="eliminarcapitulo btn btn-danger" ng-click="capitulos.$remove(capitulo)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a></td>
+                    <td style="width: 100px;"><a class="editarcapitulo btn btn-warning" ng-click="do_some_action(capitulo.$id,capitulo.nombre,capitulo.autor)" ><span class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="modal" data-target="#myModal-Programas"></span> Editar</a></td>
+                  </tr>
+                  <tr>
+                    <tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+      </div>
+    </div>
+  </div>
+ </div>
+
+  <script>
+
+// 1.0 Llenamos los programas usando Angular JS
+var app1 = angular.module("programasApp2", ["firebase"]);
+    app1.controller("SampleCtrl2", function($scope, $firebaseArray) {
+  var ref1234 = new Firebase("https://ifiretime.firebaseio.com/admin/capitulos");
+  $scope.capitulos = $firebaseArray(ref1234);
+
+// 1.1 Editamos    
+$scope.do_some_action = function(key,nombre,autor) {
+  $('#myModal-Programas').modal('show');
+  $('#inputName2').val(nombre);
+  $('#inputAutor2').val(autor);
+  $('#inputkey').val(key);
+};
+});
+
+
+
+
+// 1.2 Crear Capitulos
+$('#crear-capitulo').on('click', function (e) {        
+  e.preventDefault();
+  if( $('#inputNameCapitulo').val() != '' && $('#inputAutorCapitulo').val() != '')
+  {
+    var ref = new Firebase("https://ifiretime.firebaseio.com/admin/capitulos");
+    var juego1 = {
+      nombre: $('#inputNameCapitulo').val(),
+      autor: $('#inputAutorCapitulo').val(),
+      nombreprograma: $('#inputProgramaCapitulo').val(),
+      estado: "false"
+    }
+    ref.push(juego1);
+    $( ".msg-ok2" ).css("display", "block");
+    $(".msg-ok2").fadeTo(2000, 500).slideUp(500, function(){
+      $( ".msg-ok2" ).css("display", "hide");
+    }); 
+  }
+
+  else{
+   alert("Entre los valores");
+   $( "#inputNameCapitulo" ).focus();
+ }
+});
+</script>
+</div>
+
+<!-- ----------------------------------          Block 3 Configuraciones        ----------------------------------------  -->
+
+<div class="block-admin">    
+  <div class="panel panel-default">
+    <div class="panel-body">
+      1. Configuraciones
+    </div>
+    <div class="panel-footer">
+
+      <div class="row">
+        <div class="col-lg-6">            
+
+          <div class="form-group">
+            <label for="" class="col-sm-4 control-label">1.1 Idioma</label>
+            <div class="col-sm-8">
+              <select id="idiomaselect" class="form-control">
+                <option>Español</option>
+                <option>English</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="separador"></div>
+
+          <div class="form-group">
+            <label for="" class="col-sm-4 control-label">1.2 Plantilla Admin</label>
+            <div class="col-sm-8">
+              <select id="temaselectadmin" class="form-control">
+                <option>Silver</option>
+                <option>Blue</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="alert alert-warning" role="alert">Idioma del programa.</div>
+          <div class="alert alert-warning" role="alert">Plantilla del administrador.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      2. Configuraciones del cliente movil
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-lg-6">         
+          <div class="separador"></div>
+          <div class="form-group">
+            <label for="" class="col-sm-4 control-label">2.1 Plantilla</label>
+            <div class="col-sm-8">
+              <select id="temaselectmovil" class="form-control">
+                <option>Silver</option>
+                <option>Blue</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="alert alert-warning" role="alert">Plantilla del cliente Móvil.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      3. Configuraciones del cliente TV
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-lg-6">          
+          <div class="separador"></div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label">3.1 Plantilla</label>
+            <div class="col-sm-8">
+              <select id="temaselectTV" class="form-control">
+                <option>Silver</option>
+                <option>Blue</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      4. Administrador
+    </div>
+    <div class="panel-footer">
+
+      <div class="row">
+        <div class="col-lg-6">          
+          <div class="separador"></div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">4.1 Correo</label>
+            <div class="col-sm-6">
+              <input type="email" class="form-control" id="InputEmailadmin" placeholder="Email" value="falconsoft.3d@gmail.com">
+              <div class="separador"></div>
+              <input type="email" class="form-control" id="InputEmailadminnew" placeholder="Email" value="falconsoft.4d@gmail.com">
+              <div class="separador"></div>
+              <input type="password" class="form-control" id="InputEmailadmin" placeholder="Email" value="falconsoft.3d@gmail.com">
+            </div>
+            <div class="col-sm-3">
+              <a class="btn btn-danger" href="#" role="button" id="cambiar-mail">Cambiar</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="separador"></div>
+          <div class="alert alert-warning" role="alert">Permite cambiar el correo del administrador.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div> <!-- /container -->
+<div class="myfooter"> 
+  <div class="container">
+   <p>wwww.ifiretime.com</p>
+ </div>
+
+</div>
+</body>
+</html>
